@@ -1,0 +1,26 @@
+# Copy this file to terraform.tfvars and fill in your values
+# NEVER commit terraform.tfvars to git
+
+aws_region   = "eu-north-1"
+project_name = "capstone-phoenix"
+environment  = "production"
+
+# EC2 instance type (t3.medium recommended for k3s)
+instance_type = "t3.medium"
+
+# Number of worker nodes (minimum 2)
+node_count = 2
+
+# Your AWS key pair name (without .pem extension)
+key_name = "your-key-pair-name"
+
+# Your public IP for SSH access - get it from https://checkip.amazonaws.com
+# Must be in CIDR format e.g. 102.91.78.178/32
+my_ip = "your-ip-address/32"
+
+# Ubuntu 24.04 AMI for eu-north-1
+ami_id = "ami-08eb150f611ca277f"
+
+# VPC and subnet CIDR blocks
+vpc_cidr    = "10.0.0.0/16"
+subnet_cidr = "10.0.1.0/24"
