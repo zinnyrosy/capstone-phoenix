@@ -1,0 +1,49 @@
+---
+- name: Update apt cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Install required packages
+  apt:
+    name:
+      - ufw
+      - fail2ban
+      - curl
+      - wget
+      - git
+    state: present
+
+- name: Allow SSH through UFW
+  ufw:
+    rule: allow
+    port: "22"
+    proto: tcp
+
+- name: Allow HTTP through UFW
+  ufw:
+    rule: allow
+    port: "80"
+    proto: tcp
+
+- name: Allow HTTPS through UFW
+  ufw:
+    rule: allow
+    port: "443"
+    proto: tcp
+
+- name: Allow k3s API within cluster
+  ufw:
+    rule: allow
+    port: "6443"
+    proto: tcp
+
+- name: Allow all traffic within VPC
+  ufw:
+    rule: allow
+    src: "10.0.0.0/16"
+
+- name: Enable UFW
+  ufw:
+    state: enabled
+    policy: deny

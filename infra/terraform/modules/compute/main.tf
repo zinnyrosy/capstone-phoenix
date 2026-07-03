@@ -5,6 +5,10 @@ resource "aws_instance" "control_plane" {
   vpc_security_group_ids = [var.security_group_id]
   key_name               = var.key_name
 
+  metadata_options {
+    http_tokens = "required"
+  }
+
   root_block_device {
     volume_size = 20
     volume_type = "gp3"
@@ -24,6 +28,10 @@ resource "aws_instance" "workers" {
   subnet_id              = var.subnet_id
   vpc_security_group_ids = [var.security_group_id]
   key_name               = var.key_name
+
+  metadata_options {
+    http_tokens = "required"
+  }
 
   root_block_device {
     volume_size = 20

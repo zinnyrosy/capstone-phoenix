@@ -6,7 +6,7 @@ project_name = "capstone-phoenix"
 environment  = "production"
 
 # EC2 instance type (t3.medium recommended for k3s)
-instance_type = "t3.medium"
+instance_type = "t3.micro"
 
 # Number of worker nodes (minimum 2)
 node_count = 2
