@@ -39,7 +39,16 @@ resource "aws_security_group" "k3s" {
     cidr_blocks = ["10.0.0.0/16"]
   }
 
-  # k3s node communication - only within VPC
+  # k3s API - from admin IP
+  ingress {
+    description = "k3s API from admin IP"
+    from_port   = 6443
+    to_port     = 6443
+    protocol    = "tcp"
+    cidr_blocks = [var.my_ip]
+  }
+
+  # All traffic within VPC - node to node
   ingress {
     description = "k3s node ports"
     from_port   = 0
@@ -47,6 +56,8 @@ resource "aws_security_group" "k3s" {
     protocol    = "-1"
     cidr_blocks = ["10.0.0.0/16"]
   }
+
+  # All outbound 
 
   # All outbound traffic allowed
   egress {
@@ -59,5 +70,14 @@ resource "aws_security_group" "k3s" {
   tags = {
     Name        = "${var.project_name}-k3s-sg"
     Environment = var.environment
+  }
+
+  # NodePort range for ingress
+  ingress {
+    description = "NodePort range"
+    from_port   = 30000
+    to_port     = 32767
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
