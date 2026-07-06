@@ -11,3 +11,7 @@ data:
   DATABASE_PORT: "5432"
   DATABASE_NAME: "taskapp"
   DATABASE_USER: "taskapp_user"
+  DB_HOST: "postgres"
+  DB_PORT: "5432"
+  DB_NAME: "taskapp"
+  DB_USER: "taskapp_user"

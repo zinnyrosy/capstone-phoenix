@@ -69,10 +69,10 @@ spec:
                   key: FLASK_ENV
           resources:
             requests:
-              memory: "128Mi"
+              memory: "256Mi"
               cpu: "100m"
             limits:
-              memory: "256Mi"
+              memory: "1Gi"
               cpu: "300m"
           startupProbe:
             httpGet:
