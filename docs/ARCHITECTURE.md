@@ -1,47 +1,40 @@
-# Architecture (fill this in)
+# Architecture
 
-## 1. Topology diagram
-> Draw it (ASCII, Excalidraw, draw.io — anything). Show: your nodes, where each TaskApp
-> tier runs, the ingress controller, and the request path.
+## Overview
+This capstone deploys the TaskApp (React frontend + Flask backend + PostgreSQL) on a 3-node k3s Kubernetes cluster on AWS EC2, managed by Argo CD GitOps.
 
-```
-[ replace with your diagram ]
+## Node Topology
+- **Control Plane** (ip-10-0-1-80, 51.21.244.36): k3s server, runs Argo CD, cert-manager
+- **Worker 1** (ip-10-0-1-142, 13.62.18.251): runs backend, frontend replicas
+- **Worker 2** (ip-10-0-1-100, 13.49.245.87): runs backend, frontend replicas, ingress-nginx
 
-  Internet ──DNS──▶ taskapp.<you>.dev / api.<you>.dev
-        │
-        ▼
-  ingress controller (node: ____)  ──TLS terminated by cert-manager──┐
-        │                                                            │
-        ▼                                                            ▼
-  frontend Service ──▶ frontend Pods (nodes: __, __)        backend Service ──▶ backend Pods (nodes: __, __)
-                              │  /api proxy                              │
-                              └────────────────────────────────────────▶│
-                                                                         ▼
-                                                          postgres Service ──▶ postgres-0 (PVC on node __)
-```
+## How a Request Flows
+1. User browser → DNS (zinnydev-taskapp.site) → 13.49.245.87
+2. nginx ingress controller (hostNetwork, port 80/443)
+3. TLS termination (cert-manager + Let's Encrypt certificate)
+4. Frontend service → React/nginx pod (serves static files)
+5. Frontend calls /api → backend service → Flask pod
+6. Flask → PostgreSQL StatefulSet (persistent storage via PVC)
 
-## 2. Node & network
-- Nodes (role, size, AZ/region): …
-- CIDR / subnet choices and why: …
-- Firewall: what's open to the world, what's internal, and why `6443` is closed: …
+## Network
+- VPC: 10.0.0.0/16
+- Subnet: 10.0.1.0/24
+- Security Group: 22 (admin IP), 80/443 (world), 6443 (VPC only)
+- k3s pod CIDR: 10.42.0.0/16
+- k3s service CIDR: 10.43.0.0/16
 
-## 3. Request flow (one paragraph)
-> DNS → ingress → TLS → frontend → /api → backend → Postgres. Be specific about names/ports.
+## Single-Server Assumptions Fixed
+| Assumption | Fix |
+|-----------|-----|
+| One server = no failover | 3 nodes; pods reschedule on failure |
+| Single replica = downtime on deploy | 2+ replicas + maxUnavailable:0 |
+| Local disk = data lost on restart | PVC backed by local-path provisioner |
+| No autoscaling | HPA on backend (CPU + memory) |
+| Manual deployments | Argo CD GitOps auto-sync |
+| No TLS | cert-manager + Let's Encrypt |
 
-## 4. The single-server assumptions you fixed  ← graders look here
-> For each, name the assumption that was safe on one box but breaks on a cluster, and the
-> K8s mechanism you used. Minimum: migrations, persistent storage, traffic routing,
-> self-healing, zero-downtime deploys, secrets.
+## GitOps
+Argo CD watches manifests/taskapp/ in this repo. Any commit triggers automatic sync — no manual kubectl apply in final state.
 
-| Single-server assumption | Why it breaks at scale | How you fixed it |
-|---|---|---|
-| migrate-on-boot in the entrypoint | 2+ replicas race on `alembic upgrade head` | … |
-| named volume on the host | Pods reschedule across nodes | … |
-| `ports:` published on the host | many Pods, many nodes, one front door needed | … |
-| … | … | … |
-
-## 5. Choices & trade-offs
-- Raw YAML vs Helm vs kustomize — why: …
-- ingress-nginx vs k3s Traefik — why: …
-- CNI / NetworkPolicy enforcement — what and why: …
-- Secrets approach (out-of-band vs Sealed/External Secrets) — why: …
+## Secrets Strategy
+Secrets are created out-of-band (not committed in plaintext). Argo CD ignores them during sync.
