@@ -199,7 +199,7 @@ https://docs.google.com/forms/d/e/1FAIpQLSdp-5Zfvt431gY8m2L_MOZ7NQ-8zN2L3jvkgL7P
 
 ## My Deployment
 
-- **Student**: Ezinne (zinnyrosy)
+- **Student**: Ezinne Rosemary Nweke (zinnyrosy)
 - **Program**: TS Academy DevOps Engineering Program
 - **Live Frontend**: https://zinnydev-taskapp.site
 - **Live API**: https://api.zinnydev-taskapp.site
