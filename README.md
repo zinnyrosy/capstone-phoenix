@@ -192,3 +192,27 @@ Start by reading the K8s lesson, then open `STRUCTURE.md`.
 
 SUBMISSION LINK:
 https://docs.google.com/forms/d/e/1FAIpQLSdp-5Zfvt431gY8m2L_MOZ7NQ-8zN2L3jvkgL7P3yP7-pd94Q/viewform?usp=header
+
+
+
+---
+
+## My Deployment
+
+- **Student**: Ezinne (zinnyrosy)
+- **Program**: TS Academy DevOps Engineering Program
+- **Live Frontend**: https://zinnydev-taskapp.site
+- **Live API**: https://api.zinnydev-taskapp.site
+- **Repo**: https://github.com/zinnyrosy/capstone-phoenix
+
+## Infrastructure
+- **Cloud**: AWS (eu-north-1)
+- **Cluster**: k3s 3-node (1 control plane + 2 workers) on t3.small
+- **GitOps**: Argo CD auto-sync from `manifests/taskapp/`
+- **TLS**: Let's Encrypt via cert-manager
+
+## Docs
+- [Architecture](docs/ARCHITECTURE.md)
+- [Runbook](docs/RUNBOOK.md)
+- [Cost](docs/COST.md)
+- [Evidence](docs/EVIDENCE/)
