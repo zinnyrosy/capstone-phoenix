@@ -216,3 +216,15 @@ https://docs.google.com/forms/d/e/1FAIpQLSdp-5Zfvt431gY8m2L_MOZ7NQ-8zN2L3jvkgL7P
 - [Runbook](docs/RUNBOOK.md)
 - [Cost](docs/COST.md)
 - [Evidence](docs/EVIDENCE/)
+
+## What I Built
+
+This capstone project provisions a production-grade multi-node Kubernetes cluster from scratch on AWS and deploys the TaskApp on it. Starting from bare EC2 instances, I:
+
+1. Used **Terraform** to provision a VPC, security groups, and 3 EC2 instances
+2. Used **Ansible** to harden the servers and install k3s across all nodes
+3. Deployed the TaskApp using **Kubernetes manifests** (StatefulSet, Deployments, Ingress)
+4. Configured **cert-manager** to automatically issue Let's Encrypt TLS certificates
+5. Set up **Argo CD** for GitOps — any commit to this repo auto-syncs to the cluster
+6. Configured **HPA** to auto-scale the backend based on CPU and memory
+7. Demonstrated **zero-downtime rolling updates** and **node failover**
