@@ -1,3 +1,89 @@
+# Capstone Phoenix — TaskApp on Kubernetes
+
+> Production-grade multi-node Kubernetes cluster on AWS, built from scratch as part of the TS Academy DevOps Engineering Program.
+
+## 🌐 Live URLs
+- **Frontend**: https://zinnydev-taskapp.site
+- **API**: https://api.zinnydev-taskapp.site
+- **Repo**: https://github.com/zinnyrosy/capstone-phoenix
+
+---
+
+## 🚀 What I Built
+
+This capstone project provisions a production-grade multi-node Kubernetes cluster from scratch on AWS and deploys the TaskApp on it. Starting from bare EC2 instances, I:
+
+1. Used **Terraform** to provision a VPC, security groups, and 3 EC2 instances (modular, remote state in S3 + DynamoDB)
+2. Used **Ansible** to harden the servers and install k3s across all nodes (idempotent roles)
+3. Deployed the TaskApp using **Kubernetes manifests** (StatefulSet, Deployments, Ingress, HPA)
+4. Configured **cert-manager** to automatically issue Let's Encrypt TLS certificates
+5. Set up **Argo CD** for GitOps — any commit to this repo auto-syncs to the cluster
+6. Configured **HPA** to auto-scale the backend based on CPU and memory
+7. Demonstrated **zero-downtime rolling updates** and **node failover**
+
+---
+
+## 🛠 Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Cloud | AWS (EC2, S3, DynamoDB) |
+| Infrastructure | Terraform (modular, remote state) |
+| Configuration | Ansible (roles: hardening, k3s-server, k3s-agent) |
+| Kubernetes | k3s (1 control plane + 2 workers) |
+| App | React frontend + Flask backend + PostgreSQL |
+| Ingress | nginx ingress controller |
+| TLS | cert-manager + Let's Encrypt |
+| GitOps | Argo CD (auto-sync) |
+| Autoscaling | HPA (CPU + memory) |
+| Domain | zinnydev-taskapp.site (Hostinger) |
+
+---
+
+## 👩‍💻 My Deployment
+
+- **Student**: Ezinne Rosemary Nweke (zinnyrosy)
+- **Program**: TS Academy DevOps Engineering Program
+- **Cloud**: AWS eu-north-1
+- **Cluster**: 3-node k3s on t3.small EC2 instances
+
+---
+
+## 📁 Repo Structure
+infra/terraform/    # AWS infrastructure (VPC, EC2, Security Groups)
+infra/ansible/      # Cluster configuration (hardening, k3s)
+manifests/taskapp/  # Kubernetes manifests (app + platform)
+gitops/             # Argo CD Application
+docs/               # Architecture, Runbook, Cost, Evidence
+
+---
+
+## 📖 Documentation
+
+- [Architecture](docs/ARCHITECTURE.md) — node topology, request flow, design decisions
+- [Runbook](docs/RUNBOOK.md) — provision from zero, scale, rollback, recover
+- [Cost](docs/COST.md) — itemized monthly cost + how to cut it in half
+- [Evidence](docs/EVIDENCE/) — screenshots and logs proving every requirement
+
+---
+
+## 🙏 Acknowledgement
+
+This project was built as part of the **TS Academy DevOps Engineering Program**. Special thanks to the TS Academy team and my tutor for the structured curriculum, guidance, and the project repositories that made this capstone possible.
+
+- **TS Academy**: https://github.com/ts-a-devops
+- **Backend image**: ghcr.io/ts-a-devops/taskapp-backend
+- **Frontend image**: ghcr.io/ts-a-devops/taskapp-frontend
+
+---
+
+## 📋 Original Assignment Brief
+
+> Below is the original capstone brief provided by TS Academy.
+
+---
+
+
 # Capstone — Phoenix: TaskApp on Real Kubernetes
 
 > **Mission.** Take the **TaskApp** you containerized and shipped to one server with
@@ -195,36 +281,3 @@ https://docs.google.com/forms/d/e/1FAIpQLSdp-5Zfvt431gY8m2L_MOZ7NQ-8zN2L3jvkgL7P
 
 
 
----
-
-## My Deployment
-
-- **Student**: Ezinne Rosemary Nweke (zinnyrosy)
-- **Program**: TS Academy DevOps Engineering Program
-- **Live Frontend**: https://zinnydev-taskapp.site
-- **Live API**: https://api.zinnydev-taskapp.site
-- **Repo**: https://github.com/zinnyrosy/capstone-phoenix
-
-## Infrastructure
-- **Cloud**: AWS (eu-north-1)
-- **Cluster**: k3s 3-node (1 control plane + 2 workers) on t3.small
-- **GitOps**: Argo CD auto-sync from `manifests/taskapp/`
-- **TLS**: Let's Encrypt via cert-manager
-
-## Docs
-- [Architecture](docs/ARCHITECTURE.md)
-- [Runbook](docs/RUNBOOK.md)
-- [Cost](docs/COST.md)
-- [Evidence](docs/EVIDENCE/)
-
-## What I Built
-
-This capstone project provisions a production-grade multi-node Kubernetes cluster from scratch on AWS and deploys the TaskApp on it. Starting from bare EC2 instances, I:
-
-1. Used **Terraform** to provision a VPC, security groups, and 3 EC2 instances
-2. Used **Ansible** to harden the servers and install k3s across all nodes
-3. Deployed the TaskApp using **Kubernetes manifests** (StatefulSet, Deployments, Ingress)
-4. Configured **cert-manager** to automatically issue Let's Encrypt TLS certificates
-5. Set up **Argo CD** for GitOps — any commit to this repo auto-syncs to the cluster
-6. Configured **HPA** to auto-scale the backend based on CPU and memory
-7. Demonstrated **zero-downtime rolling updates** and **node failover**
