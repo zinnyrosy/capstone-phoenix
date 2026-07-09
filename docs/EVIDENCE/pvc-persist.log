@@ -1,0 +1,7 @@
+=== BEFORE pod deletion ===
+postgres-0  1/1  Running  0  11h
+
+=== Pod deleted: kubectl delete pod postgres-0 -n taskapp ===
+
+=== AFTER pod deletion - data still exists ===
+[{"created_at":"2026-07-06T20:45:21.544776","description":"This task should survive postgres pod deletion","id":1,"priority":"high","status":"todo","title":"Test Task - Data Survival","updated_at":"2026-07-06T20:45:21.544779"}]

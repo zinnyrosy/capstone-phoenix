@@ -1,0 +1,4 @@
+=== Zero downtime rollout - continuous 200s ===
+HTTP/2 200 responses during kubectl rollout restart deployment/backend -n taskapp
+200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200
+deployment backend successfully rolled out
