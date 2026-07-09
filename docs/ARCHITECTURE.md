@@ -38,3 +38,9 @@ Argo CD watches manifests/taskapp/ in this repo. Any commit triggers automatic s
 
 ## Secrets Strategy
 Secrets are created out-of-band (not committed in plaintext). Argo CD ignores them during sync.
+
+The `Secret` manifest in `manifests/taskapp/secret/secret.yml` contains database credentials and the Flask secret key. 
+
+**Current approach:** The Secret is created out-of-band and Argo CD is configured to ignore it during sync (it already exists in the cluster). The plaintext secret file exists in the repo for reference but in a production environment this would be replaced with **Sealed Secrets** or **External Secrets Operator** so the encrypted form is safe in git.
+
+**Future improvement:** Implement Sealed Secrets so the encrypted secret can be safely committed to git and Argo CD can manage it fully.
